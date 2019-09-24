@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>{{ word }}</div>
+        <form v-on:submit="onSubmitForm">
+            <input type="text" v-model="value" ref="answer">
+            <button type="submit">입력</button>
+        </form>
+        <div id="result">{{ result }}</div>
+        <form v-if="result == 'no'" v-on:submit="newStart">
+            <input type="text" v-model="newValue" placeholder="시작단어 입력 ㄱ">
+            <button type="submit">입력</button>
+        </form>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el : '#root',
+        data: {
+            word: '시작',
+            result: '',
+            value: '',
+        },
+        methods: {
+            onSubmitForm(e){
+                e.preventDefault();
+                if(this.word[this.word.length -1] === this.value[0]){
+                    this.result = 'ok';
+                    this.word = this.value;
+                    this.value = this.word[this.word.length -1];
+                    this.$refs.answer.focus();
+                }else{
+                    this.result = 'no'
+                }
+            },
+            newStart(e){
+                e.preventDefault();
+                this.word = this.newValue;
+                this.value = this.word[this.word.length -1];
+                this.result = '';
+            },
+        },
+    });
+</script>
+</html>
