@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- html kebab-case / 뷰에서는 camelCase-->
+        <word-relay start-word="가나다"></word-relay>
+        <word-relay start-word="아톰"></word-relay>
+        <word-relay start-word="뷰"></word-relay>
+    </div>
+    <script>
+      Vue.component('word-relay',{ //전역컴포넌트
+        template:`
+          <div>
+            <div>{{ word }}</div>
+              <form v-on:submit="onSubmitForm">
+                  <input type="text" v-model="value" ref="answer">
+                  <button type="submit">입력</button>
+              </form>
+            <div id="result">{{ result }}</div>
+          </div>
+        `,
+        props:['startWord'],
+        data(){
+          return{
+            word: this.startWord,
+            result: '',
+            value: '',
+          };
+        },
+        methods:{
+          onSubmitForm(e){
+              e.preventDefault();
+              if(this.word[this.word.length -1] === this.value[0]){
+                  this.result = 'ok';
+                  this.word = this.value;
+                  this.value = this.word[this.word.length -1];
+                  this.$refs.answer.focus();
+              }else{
+                  this.result = 'no'
+              }
+          },
+          newStart(e){
+              e.preventDefault();
+              this.word = this.newValue;
+              this.value = this.word[this.word.length -1];
+              this.result = '';
+          },
+        }
+      })
+    </script>
+</body>
+<script>
+    const app = new Vue({
+      el : '#root',
+    })
+</script>
+</html>
