@@ -1,2 +1,2 @@
 # learnVue
-<a href="https://sunghyun01.github.io/learnVue/wordrelay.html">demo</a>
+<a href="https://sunghyun01.github.io/learnVue/index.html">demo</a>
